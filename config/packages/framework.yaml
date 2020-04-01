@@ -14,3 +14,10 @@ framework:
     #fragments: true
     php_errors:
         log: true
+
+    cache:
+        pools:
+            apcu.default.cache.pool:
+                adapter: cache.adapter.apcu
+            apcu.logs.cache.pool:
+                adapter: cache.adapter.apcu

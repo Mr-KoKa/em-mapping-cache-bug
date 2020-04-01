@@ -1,18 +1,64 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
-
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '5.7'
+        default_connection: default
+        connections:
+            default:
+                driver:   "pdo_mysql"
+                host:     "127.0.0.1"
+                port:     "3306"
+                dbname:   "example"
+                user:     "root"
+                password: ""
+                charset:  utf8mb4
+                server_version: "mariadb-10.4.10"
+            logs:
+                driver:   "pdo_mysql"
+                host:     "127.0.0.1"
+                port:     "3306"
+                dbname:   "example_logs"
+                user:     "root"
+                password: ""
+                charset:  utf8mb4
+                server_version: "mariadb-10.4.10"
     orm:
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
+        default_entity_manager: default
+        entity_managers:
+            default:
+                query_cache_driver:
+                    type: pool
+                    pool: apcu.default.cache.pool
+                metadata_cache_driver:
+                    type: pool
+                    pool: apcu.default.cache.pool
+                result_cache_driver:
+                    type: pool
+                    pool: apcu.default.cache.pool
+                connection: default
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Main'
+                        prefix: 'App\Entity\Main'
+                        alias: App
+            logs:
+                query_cache_driver:
+                    type: pool
+                    pool: apcu.default.cache.pool
+                metadata_cache_driver:
+                    type: pool
+                    pool: apcu.default.cache.pool
+                result_cache_driver:
+                    type: pool
+                    pool: apcu.default.cache.pool
+                connection: logs
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    LogBundle:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/src/Entity/Logs'
+                        prefix: 'App\Entity\Logs'
+                        alias: App
