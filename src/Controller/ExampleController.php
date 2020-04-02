@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Main\Example;
+use App\Entity\Main\Item;
 use App\Form\Type\ExampleType;
+use App\Form\Type\ItemType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,6 +68,28 @@ class ExampleController extends AbstractController {
         if($form->isSubmitted() && $form->isValid()){
             $em->flush();
         }
+
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/example4")
+     * @Template
+     */
+    public function example4(Request $request){
+        $form = $this->createForm(ExampleType::class, new Example());
+        $form->handleRequest($request);
+
+        return ['form' => $form->createView()];
+    }
+
+    /**
+     * @Route("/example5")
+     * @Template
+     */
+    public function example5(Request $request){
+        $form = $this->createForm(ItemType::class, new Item());
+        $form->handleRequest($request);
 
         return ['form' => $form->createView()];
     }
